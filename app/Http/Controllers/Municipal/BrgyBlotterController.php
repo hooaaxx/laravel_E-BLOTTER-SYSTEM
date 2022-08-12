@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Blotter;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PDF;
 
 class BrgyBlotterController extends Controller
 {
@@ -96,14 +97,6 @@ class BrgyBlotterController extends Controller
     {
         // // GET BLOTTER ID
         $blotter = Blotter::where('id', $id)->first();
-        // //GET SPECIFIC MUNICIPAL WITH SAME PERMISSION WITH BRGY
-        // $admin = User::role('admin')->permission($blotter->pass_to)->first();
-        // // GET admin WITH PERMISSION
-        // $users = User::where('id', $admin->id)->with('roles')->first();
-
-        // foreach($users->roles as $role){
-        //     $adminRoleName = $role->name;
-        // }
 
         // dd($adminRoleName);
 
@@ -153,6 +146,30 @@ class BrgyBlotterController extends Controller
         $blotter->update($validated);
 
         return to_route('municipal.brgyblotter.index')->with('message', 'Blotter Updated successfully.');
+    }
+
+    // PDF GENERATOR
+
+    public function downloadPDF($id) {
+        $show = Blotter::find($id);
+        $user = User::where('email', $show->approve_by)->first();
+        $dateReported = $show->when;
+        $date = date("M/d/Y", strtotime($dateReported) );
+        $pdf = PDF::loadView('pdf.brgy-blotter-pdf', compact('show', 'date', 'user'));
+        $pdf->SetPaper('letter','portrait');
+        return $pdf->download('Barangay-Blotter.pdf');
+        // return view('brgy.approved.pdf', compact('show'));
+    }
+
+    public function fileActionPDF($id) {
+        $show = Blotter::find($id);
+        $user = User::where('email', $show->approve_by)->first();
+        $dateReported = $show->when;
+        $date = date("M/d/Y", strtotime($dateReported) );
+        $pdf = PDF::loadView('pdf.filetoaction', compact('show', 'date', 'user'));
+        $pdf->SetPaper('letter','portrait');
+        return $pdf->download('Barangay-fileAction.pdf');
+        // return view('brgy.approved.pdf', compact('show'));
     }
 
     /**

@@ -11,7 +11,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::whereNotIn('name', ['admin'])->get();
+        $roles = Role::whereNotIn('name', ['admin'])->latest()->paginate(5);
         return view('admin.roles.index', compact('roles'));
     }
 

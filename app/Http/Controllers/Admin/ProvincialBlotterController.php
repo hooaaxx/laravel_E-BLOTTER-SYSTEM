@@ -7,6 +7,7 @@ use App\Models\Blotter;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PDF;
 
 class ProvincialBlotterController extends Controller
 {
@@ -90,6 +91,19 @@ class ProvincialBlotterController extends Controller
         }else{
             return abort(404);
         }
+    }
+
+    // PDF GENERATOR
+
+    public function downloadPDF($id) {
+        $show = Blotter::find($id);
+        $user = User::where('email', $show->approve_by)->first();
+        $dateReported = $show->when;
+        $date = date("M/d/Y", strtotime($dateReported) );
+        $pdf = PDF::loadView('pdf.municipal-blotter-pdf', compact('show', 'date', 'user'));
+        $pdf->SetPaper('letter','portrait');
+        return $pdf->download('Municipal-Blotter.pdf');
+        // return view('brgy.approved.pdf', compact('show'));
     }
 
     /**

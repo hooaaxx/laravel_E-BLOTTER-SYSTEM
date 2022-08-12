@@ -128,6 +128,7 @@ class PendingController extends Controller
         $blotter = Blotter::where('id', $id)->first();
         $code = $this->generateCaseNumber();
         $blotter['case_number'] = $code;
+        $blotter['approve_by'] = auth()->user()->email;
         $blotter['approval'] = 'approved';
         $blotter->update();
         

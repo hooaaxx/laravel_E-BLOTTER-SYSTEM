@@ -7,6 +7,7 @@ use App\Models\Blotter;
 use App\Models\User;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
+use PDF;
 
 class ApprovedController extends Controller
 {
@@ -111,6 +112,7 @@ class ApprovedController extends Controller
 
         $code = $this->generateCaseNumber();
         $validated['user_id'] = auth()->user()->id;
+        $validated['approve_by'] = auth()->user()->email;
         $validated['case_number'] = $code;
         $validated['pass_to'] = 'brgy';
         $validated['approval'] = 'approved';
@@ -145,8 +147,12 @@ class ApprovedController extends Controller
             $blotApproval = $blotter->approval;
             if($usersPermissions->first() === $blotBrgy && $blotApproval === 'approved'){
                 $blotters = Blotter::where('id', $id)->get();
-    
-                return view('brgy.approved.show', compact('blotters'));
+                foreach($blotters as $blotter){
+                    $user = User::where('email', $blotter->approve_by)->first();
+                }
+                
+
+                return view('brgy.approved.show', compact('blotters', 'user'));
             }
             return abort(404);
         }else{
@@ -241,6 +247,19 @@ class ApprovedController extends Controller
         $blotter->update($validated);
 
         return to_route('brgy.approved.index')->with('message', 'Blotter Updated successfully.');
+    }
+
+    // PDF GENERATOR
+
+    public function downloadPDF($id) {
+        $show = Blotter::find($id);
+        $user = User::where('email', $show->approve_by)->first();
+        $dateReported = $show->when;
+        $date = date("M/d/Y", strtotime($dateReported) );
+        $pdf = PDF::loadView('pdf.brgy-blotter-pdf', compact('show', 'date', 'user'));
+        $pdf->SetPaper('letter','portrait');
+        return $pdf->download('Barangay-Blotter-Approved.pdf');
+        // return view('brgy.approved.pdf', compact('show'));
     }
 
     /**

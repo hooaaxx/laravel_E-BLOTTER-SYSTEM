@@ -105,32 +105,60 @@
                                                     <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                                     <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
                                                     </svg>
-                                                    <span class="ml-2 flex-1 w-0 truncate"> resume_back_end_developer.pdf </span>
+                                                    <span class="ml-2 flex-1 w-0 truncate"> Brgy-Blotter.pdf </span>
                                                 </div>
                                                 <div class="ml-4 flex-shrink-0">
-                                                    <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> Download </a>
+                                                    <a href="{{ route('municipal.brgyblotter.pdf', $blotter->id) }}" class="font-medium text-indigo-600 hover:text-indigo-500"> Download </a>
                                                 </div>
                                             </li>
+                                            @if ($blotter->file_to_action == 'passed')
+                                                <li class="pl-3 pr-4 py-3 flex items-center justify-between text-sm">
+                                                    <div class="w-0 flex-1 flex items-center">
+                                                        <!-- Heroicon name: solid/paper-clip -->
+                                                        <svg class="flex-shrink-0 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                        <path fill-rule="evenodd" d="M8 4a3 3 0 00-3 3v4a5 5 0 0010 0V7a1 1 0 112 0v4a7 7 0 11-14 0V7a5 5 0 0110 0v4a3 3 0 11-6 0V7a1 1 0 012 0v4a1 1 0 102 0V7a3 3 0 00-3-3z" clip-rule="evenodd" />
+                                                        </svg>
+                                                        <span class="ml-2 flex-1 w-0 truncate"> File_Action.pdf </span>
+                                                    </div>
+                                                    <div class="ml-4 flex-shrink-0">
+                                                        <a href="{{ route('municipal.brgyfileaction.pdf', $blotter->id) }}" class="font-medium text-indigo-600 hover:text-indigo-500"> Download </a>
+                                                    </div>
+                                                </li>
+                                            @endif
+                                            
                                         </ul>
                                     </dd>
                                 </div>
                             </dl>
                         </div>
                         <div class="flex justify-between">
-                            <form
-                                method="POST" 
-                                action="{{ route('municipal.brgyblotter.pass', $blotter->id) }}"
-                                onsubmit="return confirm('Are you sure?');"
-                            >
-                                @csrf
-                                @method('PUT')
-                                <button
-                                    type="submit"
-                                    class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                            @if ($blotter->file_to_action == 'passed')
+                                <form
+                                    method="POST" 
+                                    action="{{ route('municipal.brgyblotter.pass', $blotter->id) }}"
+                                    onsubmit="return confirm('Are you sure?');"
                                 >
-                                    Pass to provincial
-                                </button>
-                            </form>
+                                    @csrf
+                                    @method('PUT')
+                                    <button
+                                        type="submit"
+                                        class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                    >
+                                        Pass to provincial
+                                    </button>
+                                </form>
+                            @endif
+
+                            @if ($blotter->file_to_action == 'passed')
+                                <a
+                                    href="{{ route('municipal.municipalblotter.pdf', $blotter->id) }}"
+                                    class="text-white bg-gradient-to-r from-gray-500 via-gray-600 to-gray-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-gray-300 dark:focus:ring-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                                >
+                                    <svg enable-background="new 0 0 45 45" version="1.1" width="20" height="20" viewBox="0 0 45 45" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="m42.5 19.408h-2.5v-17.565c0-0.69-0.561-1.25-1.25-1.25h-32.5c-0.69 0-1.25 0.56-1.25 1.25v17.563h-2.5c-1.381 0-2.5 1.119-2.5 2.5v20c0 1.381 1.119 2.5 2.5 2.5h40c1.381 0 2.5-1.119 2.5-2.5v-20c0-1.381-1.119-2.498-2.5-2.498zm-9.969 18.686h-20.063v-5h20.063v5zm4.969-18.686h-2.5c-1.381 0-2.5 1.119-2.5 2.5v5h-20v-5c0-1.381-1.119-2.5-2.5-2.5h-2.5v-16.315h30v16.315zm-5-10.616h-20c-0.69 0-1.25-0.56-1.25-1.25s0.56-1.25 1.25-1.25h20c0.689 0 1.25 0.56 1.25 1.25s-0.561 1.25-1.25 1.25zm0 5h-20c-0.69 0-1.25-0.56-1.25-1.25s0.56-1.25 1.25-1.25h20c0.689 0 1.25 0.56 1.25 1.25s-0.561 1.25-1.25 1.25zm0 5h-20c-0.69 0-1.25-0.56-1.25-1.25s0.56-1.25 1.25-1.25h20c0.689 0 1.25 0.56 1.25 1.25s-0.561 1.25-1.25 1.25z"/>
+                                    </svg>
+                                </a>
+                            @endif
                         </div>
                     </div>
                     @endforeach

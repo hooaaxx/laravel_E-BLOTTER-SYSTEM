@@ -86,14 +86,21 @@ class IndexController extends Controller
 
     // BRGY INDEX
 
-    public function BrgyIndex()
+    public function BrgyIndex(Request $request)
     {
         $users = User::where('id', auth()->user()->id)->first();
 
         $usersPermissions = $users->getDirectPermissions()->first();
+        $search = $request->input('search');
 
         // dd($usersPermissions->name);
-        $blotters = Blotter::where('barangay', $usersPermissions->name)->paginate(5);
+        $blotters = Blotter::where('barangay', $usersPermissions->name)
+                            ->where(function($query) use ($search){
+                                if(!empty($search)){
+                                    $query->where('complainant_firstname', 'like', '%'.$search.'%');
+                                    $query->orWhere('complainant_lastname', 'like', '%'.$search.'%');
+                                }
+                            })->latest()->paginate(5);
         
         $permissionName = $users->getDirectPermissions()->first();
         // dd($permissionName->name);
@@ -115,19 +122,25 @@ class IndexController extends Controller
                         ->groupBy('year')
                         ->get();
 
-        
         return view('brgy.index', compact('blotters', 'monthly', 'yearly', 'permissionName'));
     }
 
     // MUNICIPAL INDEX
 
-    public function MunicipalIndex()
+    public function MunicipalIndex(Request $request)
     {
         $users = User::where('id', auth()->user()->id)->first();
         $permissionName = $users->getDirectPermissions()->first();
         // dd($permissionName->name);
+        $search = $request->input('search');
 
-        $blotters = Blotter::where('municipal', $permissionName->name)->paginate(5);
+        $blotters = Blotter::where('municipal', $permissionName->name)
+                            ->where(function($query) use ($search){
+                                if(!empty($search)){
+                                    $query->where('complainant_firstname', 'like', '%'.$search.'%');
+                                    $query->orWhere('complainant_lastname', 'like', '%'.$search.'%');
+                                }
+                            })->latest()->paginate(5);
 
         // dd($blotters);
 

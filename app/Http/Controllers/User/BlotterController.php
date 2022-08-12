@@ -6,14 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Blotter;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use PDF;
 
 class BlotterController extends Controller
 {
     public function index()
     {
-        $brgys = User::role('brgy')->get();
+        // $brgys = User::role('brgy')->get();
+        $brgys = Role::where('name', 'brgy')->first();
+        $brgyPermission = $brgys->permissions;
+
+        // dd($rolePermission);
         
-        return view('dashboard.index', compact('brgys'));
+        return view('dashboard.index', compact('brgyPermission'));
     }
     
     public function view(Request $request)
@@ -44,7 +50,7 @@ class BlotterController extends Controller
 
         $municipalName = $municipalUsers->permissions->pluck('name');
 
-        // dd($municipalUsers->name);
+        // dd($user);
 
         $validated = $request->validate([
             'barangay' => ['required'],
@@ -80,6 +86,7 @@ class BlotterController extends Controller
         }
 
         $validated['pass_to'] = 'brgy';
+        // $validated['approve_by'] = 'null';
         $validated['approval'] = 'pending';
         $validated['municipal'] = $municipalUsers->name;
         $validated['user_id'] = auth()->user()->id;
@@ -108,6 +115,18 @@ class BlotterController extends Controller
         }
         
         return to_route('dashboard.view')->with('error', 'Blotter cannot view.');
+    }
+
+    //PASS BLOTTER TO MUNICIPAL
+    public function pass(Request $request, $id)
+    {
+        // // GET BLOTTER ID
+        $blotter = Blotter::where('id', $id)->first();
+
+        $blotter['file_to_action'] = 'passed';
+        $blotter->update();
+        
+        return to_route('dashboard.view')->with('message', 'file to action pass to municipal successfully.');
     }
 
     public function edit(Blotter $blotter)
@@ -176,6 +195,41 @@ class BlotterController extends Controller
         $blotter->update($validated);
 
         return to_route('dashboard.view')->with('message', 'Blotter Updated successfully.');
+    }
+
+    // PDF GENERATOR
+
+    public function downloadPDF($id) {
+        $show = Blotter::find($id);
+        $user = User::where('email', $show->approve_by)->first();
+        $dateReported = $show->when;
+        $date = date("M/d/Y", strtotime($dateReported) );
+        $pdf = PDF::loadView('pdf.brgy-blotter-pdf', compact('show', 'date', 'user'));
+        $pdf->SetPaper('letter','portrait');
+        return $pdf->download('Barangay-Blotter.pdf');
+        // return view('brgy.approved.pdf', compact('show'));
+    }
+
+    public function downloadmunicipalPDF($id) {
+        $show = Blotter::find($id);
+        $user = User::where('email', $show->approve_by)->first();
+        $dateReported = $show->when;
+        $date = date("M/d/Y", strtotime($dateReported) );
+        $pdf = PDF::loadView('pdf.municipal-blotter-pdf', compact('show', 'date', 'user'));
+        $pdf->SetPaper('letter','portrait');
+        return $pdf->download('Municipal-Blotter.pdf');
+        // return view('brgy.approved.pdf', compact('show'));
+    }
+
+    public function fileActionPDF($id) {
+        $show = Blotter::find($id);
+        $user = User::where('email', $show->approve_by)->first();
+        $dateReported = $show->when;
+        $date = date("M/d/Y", strtotime($dateReported) );
+        $pdf = PDF::loadView('pdf.filetoaction', compact('show', 'date', 'user'));
+        $pdf->SetPaper('letter','portrait');
+        return $pdf->download('Barangay-fileAction.pdf');
+        // return view('brgy.approved.pdf', compact('show'));
     }
 
     public function destroy(Blotter $blotter)

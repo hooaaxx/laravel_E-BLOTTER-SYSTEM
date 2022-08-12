@@ -90,6 +90,7 @@
                 class="flex flex-col flex-shrink-0 w-full text-gray-700 bg-white md:w-64 dark:text-gray-200 dark:bg-gray-800"
                 x-data="{ open: false }">
                 <div class="flex flex-row items-center justify-between flex-shrink-0 px-8 py-4">
+                    <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
                     <a href="{{ route('municipal.index') }}"
                         class="text-lg font-semibold tracking-widest text-gray-900 uppercase rounded-lg dark:text-white focus:outline-none focus:shadow-outline"
                     >Municipal Panel</a>
@@ -134,6 +135,10 @@
                             x-transition:leave-end="transform opacity-0 scale-95"
                             class="absolute right-0 w-full mt-2 origin-top-right rounded-md shadow-lg">
                             <div class="px-2 py-2 bg-white rounded-md shadow dark:bg-gray-700">
+                                <a
+                                    href="/"
+                                    class="block px-4 py-2 mt-2 text-sm font-semibold bg-transparent rounded-lg dark:bg-transparent dark:hover:bg-gray-600 dark:focus:bg-gray-600 dark:focus:text-white dark:hover:text-white dark:text-gray-200 md:mt-0 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                                >HOME</a>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
     

@@ -19,6 +19,8 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->string('approve_by')->nullable();
+            $table->string('file_to_action')->nullable();
             $table->string('case_number')->nullable();
             $table->string('pass_to')->nullable();
             $table->string('approval');

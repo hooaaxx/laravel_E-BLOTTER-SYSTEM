@@ -7,6 +7,7 @@ use App\Models\Blotter;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
+use PDF;
 
 class MunicipalBlotterController extends Controller
 {
@@ -120,6 +121,8 @@ class MunicipalBlotterController extends Controller
         
         $code = $this->generateCaseNumber();
         $validated['user_id'] = auth()->user()->id;
+        $validated['approve_by'] = auth()->user()->email;
+        $validated['file_to_action'] = 'passed';
         $validated['case_number'] = $code;
         $validated['pass_to'] = 'municipal';
         $validated['approval'] = 'created_by_municipal';
@@ -230,6 +233,19 @@ class MunicipalBlotterController extends Controller
         $blotter->update($validated);
 
         return to_route('municipal.municipalblotter.index')->with('message', 'Blotter Updated successfully.');
+    }
+
+    // PDF GENERATOR
+
+    public function downloadPDF($id) {
+        $show = Blotter::find($id);
+        $user = User::where('email', $show->approve_by)->first();
+        $dateReported = $show->when;
+        $date = date("M/d/Y", strtotime($dateReported) );
+        $pdf = PDF::loadView('pdf.municipal-blotter-pdf', compact('show', 'date', 'user'));
+        $pdf->SetPaper('letter','portrait');
+        return $pdf->download('Municipal-Blotter.pdf');
+        // return view('brgy.approved.pdf', compact('show'));
     }
 
     /**

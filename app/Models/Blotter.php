@@ -13,6 +13,8 @@ class Blotter extends Model
 
     protected $fillable = [
         'user_id',
+        'approve_by',
+        'file_to_action',
         'case_number',
         'pass_to',
         'approval',

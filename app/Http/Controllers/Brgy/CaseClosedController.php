@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Blotter;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PDF;
 
 class CaseClosedController extends Controller
 {
@@ -123,6 +124,19 @@ class CaseClosedController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    // PDF GENERATOR
+
+    public function downloadPDF($id) {
+        $show = Blotter::find($id);
+        $user = User::where('email', $show->approve_by)->first();
+        $dateReported = $show->when;
+        $date = date("M/d/Y", strtotime($dateReported) );
+        $pdf = PDF::loadView('pdf.brgy-blotter-pdf', compact('show', 'date', 'user'));
+        $pdf->SetPaper('letter','portrait');
+        return $pdf->download('Barangay-Blotter-CaseClosed.pdf');
+        // return view('brgy.approved.pdf', compact('show'));
     }
 
     /**

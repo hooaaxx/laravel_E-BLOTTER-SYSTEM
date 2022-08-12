@@ -12,7 +12,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::whereDoesntHave('roles', function($q) {
+                        $q->where("name", "admin");
+                    })->latest()->paginate(5);
 
         return view('admin.users.index', compact('users'));
     }
