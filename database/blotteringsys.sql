@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2022 at 07:14 AM
+-- Generation Time: Aug 12, 2022 at 11:29 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -30,6 +30,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `blotters` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
+  `approve_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `file_to_action` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `case_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pass_to` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `approval` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -56,13 +58,20 @@ CREATE TABLE `blotters` (
 -- Dumping data for table `blotters`
 --
 
-INSERT INTO `blotters` (`id`, `user_id`, `case_number`, `pass_to`, `approval`, `municipal`, `barangay`, `complainant_img`, `complainant_firstname`, `complainant_lastname`, `complainant_number`, `complainant_address`, `respondent_img`, `respondent_firstname`, `respondent_lastname`, `respondent_number`, `respondent_address`, `when`, `where`, `what`, `created_at`, `updated_at`) VALUES
-(1, 2, '9526123382', 'municipal', 'passed', 'Calasiao', 'Malabago', '/storage/complainant_images/complainantDefault.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-11', 'test', 'testing', '2022-07-06 02:50:59', '2022-07-06 18:30:50'),
-(2, 2, '9877569135', 'municipal', 'passed', 'testmunicipal', 'testbrgy', '/storage/complainant_images/complainantDefault.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-14', 'test', 'test', '2022-07-06 02:59:16', '2022-07-06 18:36:48'),
-(3, 2, '9978389603', 'provincial', 'passed_to_provincial', 'Calasiao', 'Nalsiao', '/storage/complainant_images/complainantDefault.jpg', 'test', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-10', 'test', 'testing', '2022-07-06 03:03:52', '2022-07-06 20:39:02'),
-(6, 3, '6178969865', 'brgy', 'approved', 'Calasiao', 'Malabago', '/storage/complainant_images/1657166906gojo.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-10', 'test', 'test', '2022-07-06 20:08:26', '2022-07-06 20:08:26'),
-(7, 3, '3660831013', 'brgy', 'approved', 'Calasiao', 'Malabago', '/storage/complainant_images/complainantDefault.jpg', 'test', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/1657166930gojo.jpg', 'testing', 'testing', '09123456789', 'test address', '2022-07-10', 'test', 'test', '2022-07-06 20:08:50', '2022-07-06 20:19:28'),
-(8, 6, '4172722906', 'provincial', 'passed_to_provincial', 'Calasiao', 'Malabago', '/storage/complainant_images/1657168507gojo.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-12', 'test', 'test', '2022-07-06 20:35:07', '2022-07-06 20:39:16');
+INSERT INTO `blotters` (`id`, `user_id`, `approve_by`, `file_to_action`, `case_number`, `pass_to`, `approval`, `municipal`, `barangay`, `complainant_img`, `complainant_firstname`, `complainant_lastname`, `complainant_number`, `complainant_address`, `respondent_img`, `respondent_firstname`, `respondent_lastname`, `respondent_number`, `respondent_address`, `when`, `where`, `what`, `created_at`, `updated_at`) VALUES
+(1, 2, 'Malabago@Malabago.com', 'passed', '9526123382', 'municipal', 'passed', 'Calasiao', 'Malabago', '/storage/complainant_images/complainantDefault.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-11', 'test', 'testing', '2022-08-01 02:50:59', '2022-08-12 01:15:15'),
+(2, 2, 'testbrgy@testbrgy.com', NULL, '9877569135', 'municipal', 'passed', 'testmunicipal', 'testbrgy', '/storage/complainant_images/complainantDefault.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-14', 'test', 'test', '2022-07-06 02:59:16', '2022-07-06 18:36:48'),
+(3, 2, 'Nalsiao@Nalsiao.com', 'passed', '9978389603', 'provincial', 'passed_to_provincial', 'Calasiao', 'Nalsiao', '/storage/complainant_images/complainantDefault.jpg', 'test', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-10', 'test', 'testing', '2022-07-06 03:03:52', '2022-07-06 20:39:02'),
+(6, 3, 'Malabago@Malabago.com', NULL, '6178969865', 'brgy', 'approved', 'Calasiao', 'Malabago', '/storage/complainant_images/1657166906gojo.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-10', 'test', 'testing', '2022-07-06 20:08:26', '2022-08-12 03:19:56'),
+(7, 3, 'Malabago@Malabago.com', NULL, '3660831013', 'brgy', 'revived', 'Calasiao', 'Malabago', '/storage/complainant_images/complainantDefault.jpg', 'test', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/1657166930gojo.jpg', 'testing', 'testing', '09123456789', 'test address', '2022-07-10', 'test', 'test', '2022-07-06 20:08:50', '2022-07-10 00:13:11'),
+(8, 6, 'Malabago@Malabago.com', 'passed', '4172722906', 'provincial', 'passed_to_provincial', 'Calasiao', 'Malabago', '/storage/complainant_images/1657168507gojo.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-12', 'test', 'test', '2022-07-06 20:35:07', '2022-07-06 20:39:16'),
+(10, 2, 'Nalsiao@Nalsiao.com', NULL, '9107212144', 'municipal', 'passed', 'Calasiao', 'Nalsiao', '/storage/complainant_images/complainantDefault.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'Mikel', 'Bonganay', '09123456789', 'test address', '2022-07-11', 'test', 'test', '2022-07-10 00:14:59', '2022-08-12 02:35:17'),
+(11, 10, 'Malabago@Malabago.com', NULL, '6726747820', 'municipal', 'passed', 'Calasiao', 'Malabago', '/storage/complainant_images/complainantDefault.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-08', 'test', 'testing', '2022-07-10 00:48:56', '2022-08-12 00:44:26'),
+(12, 10, 'Malabago@Malabago.com', NULL, '4084841211', 'municipal', 'passed', 'Calasiao', 'Malabago', '/storage/complainant_images/complainantDefault.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'Mikel', 'Bonganay', '09123456789', 'test address', '2022-07-01', 'test', 'test', '2022-07-10 00:55:39', '2022-07-10 00:59:40'),
+(13, 6, 'Nalsiao@Nalsiao.com', 'passed', '8763616727', 'provincial', 'passed_to_provincial', 'Calasiao', 'Nalsiao', '/storage/complainant_images/complainantDefault.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-07-04', 'test', 'test', '2022-07-10 01:02:39', '2022-07-10 01:05:02'),
+(14, 6, 'calasiao@municipal.com', NULL, '4720048076', 'municipal', 'created_by_municipal', 'Calasiao', 'Malabago', '/storage/complainant_images/complainantDefault.jpg', 'sdfsdlkjxdblkjxlbjklkjlk', 'slfdkjslksdjlfkjl', '09151117960', 'PH10A PACKAGE 3 BLOCK 60 LOT 8', '/storage/respondent_images/respondentDefault.png', 'sfkoljjkljlkxjlkxckjhkjhsequyiusyu', 'sdkjfhxcv nm,nqoiu', '09123456789', 'test address', '2022-08-08', 'malabago', 'kjhkklxcnmxvcm,n,vnx,mcv,nxjk klj nx,cmvn klxjch kxcjvh kjcxhvkjhksh kjhk hjkhdk jhvk jhhkvsdhkjjh k jhvkdsjhk jhdk jsdhvk hueowiyriowu kljsnk jhiuh jk hnksjhd kfjhkwfj hdk jhfkw', '2022-08-09 00:07:59', '2022-08-09 00:07:59'),
+(16, 2, 'Nalsiao@Nalsiao.com', NULL, '2303047737', 'brgy', 'approved', 'Calasiao', 'Nalsiao', '/storage/complainant_images/complainantDefault.jpg', 'Michel jou', 'Bonganay', '09388440860', 'bagong silang', '/storage/respondent_images/respondentDefault.png', 'testing', 'testing', '09123456789', 'test address', '2022-08-02', 'test', 'testing', '2022-08-11 23:42:41', '2022-08-12 02:33:08'),
+(17, 3, 'Malabago@Malabago.com', NULL, '9042887259', 'brgy', 'approved', 'Calasiao', 'Malabago', '/storage/complainant_images/complainantDefault.jpg', 'testing', 'testing', '09388440860', 'PH10A PACKAGE 3 BLOCK 60 LOT 8', '/storage/respondent_images/respondentDefault.png', 'Michel jou', 'Bonganay', '09123456789', 'test address', '2022-08-02', 'malabago', 'testing', '2022-08-12 03:22:21', '2022-08-12 03:22:21');
 
 -- --------------------------------------------------------
 
@@ -153,6 +162,7 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (2, 'App\\Models\\User', 8),
 (2, 'App\\Models\\User', 9),
 (3, 'App\\Models\\User', 2),
+(3, 'App\\Models\\User', 10),
 (4, 'App\\Models\\User', 6),
 (5, 'App\\Models\\User', 6),
 (5, 'App\\Models\\User', 7),
@@ -294,13 +304,14 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@admin.com', '2022-07-06 01:53:14', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2022-07-06 01:53:14', '2022-07-06 01:53:14'),
 (2, 'testing', 'mikel062795@gmail.com', '2022-07-06 02:00:18', '$2y$10$/NxzYrPS5IIPEh6uxOpblO3uljVcB8xEMMRpq/U7AfYxeNs1QxD4u', NULL, '2022-07-06 02:00:03', '2022-07-06 02:00:18'),
-(3, 'Malabago', 'Malabago@Malabago.com', '2022-07-06 10:05:01', '$2y$10$4kiMtlHZScJOqNB7ErQBGeJi3GueKJbuvMytBfjRktQUBgAYzBJW.', NULL, '2022-07-06 02:04:50', '2022-07-06 02:04:50'),
+(3, 'Michel jou bonganay', 'Malabago@Malabago.com', '2022-07-06 10:05:01', '$2y$10$4kiMtlHZScJOqNB7ErQBGeJi3GueKJbuvMytBfjRktQUBgAYzBJW.', NULL, '2022-07-06 02:04:50', '2022-07-06 02:04:50'),
 (4, 'Nalsiao', 'Nalsiao@Nalsiao.com', '2022-07-06 10:13:12', '$2y$10$UhjoVDwmJJnu1MOvCGAJpOApPcVEw.xQbyXnIFSHiFvi3qgboz/rK', NULL, '2022-07-06 02:10:54', '2022-07-06 02:10:54'),
 (5, 'San miguel', 'sanmiguel@sanmiguel.com', '2022-07-06 10:15:47', '$2y$10$pYZCmnuymVZVhdIN7L88fOVQlBbNyP34J7b//xTrVm12.kVLfgowa', NULL, '2022-07-06 02:13:47', '2022-07-06 02:13:47'),
 (6, 'Calasiao', 'calasiao@municipal.com', '2022-07-06 10:15:51', '$2y$10$sVNdWF8kSWU9LR3EjfLBmuSMFYecBAYNtDMf7Ihm0p0.g.mDUCLTi', NULL, '2022-07-06 02:14:58', '2022-07-06 02:14:58'),
 (7, 'testmunicipal', 'municipal2@municipal2.com', NULL, '$2y$10$BrxrVmYIVTnFuamB4cAf2etAowZRscbFt5E67vLAm0PMg81.EYy6C', NULL, '2022-07-06 02:54:36', '2022-07-06 02:54:36'),
 (8, 'testbrgy', 'testbrgy@testbrgy.com', NULL, '$2y$10$fBz40iGFanxLHQ7gZffDu.ERkzaDD0WcriYsjYanNRK.SFGa.4EFy', NULL, '2022-07-06 02:54:59', '2022-07-06 02:54:59'),
-(9, 'testbrgy2', 'testbrgy2@testbrgy2.com', NULL, '$2y$10$jsK6ag2zLtzkKQkP9iZhA.mXTjBeN.LWXhNIoN0bVktQXi3tDkpsi', NULL, '2022-07-06 02:55:17', '2022-07-06 02:55:17');
+(9, 'testbrgy2', 'testbrgy2@testbrgy2.com', NULL, '$2y$10$jsK6ag2zLtzkKQkP9iZhA.mXTjBeN.LWXhNIoN0bVktQXi3tDkpsi', NULL, '2022-07-06 02:55:17', '2022-07-06 02:55:17'),
+(10, 'testing', 'mysender27@gmail.com', '2022-07-10 00:47:38', '$2y$10$36uklDizBZX.zGAtCCRmwe2hYX9KxfgpQD9zoARlzsUeirO2G9yva', NULL, '2022-07-10 00:46:56', '2022-07-10 00:47:38');
 
 --
 -- Indexes for dumped tables
@@ -390,7 +401,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `blotters`
 --
 ALTER TABLE `blotters`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -426,7 +437,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
