@@ -7,11 +7,14 @@
     <title>
       E-blotter System
     </title>
-    <meta name="description" content="THE E-BLOTTER SYSTEM is an automated process of managing a barangay blotter that is faster and more secure compared to the usual process." />
+    <meta property="og:title" content="E-Blottering">
+    <meta property="og:description" content="THE E-BLOTTER SYSTEM is an automated process of managing a barangay blotter that is faster and more secure compared to the usual process.">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/1/13/Seal_of_the_Province_of_Pangasinan.svg">
+    <meta property="og:url" content="https://e-blottering.online/">
+
     <meta name="keywords" content="e-blottering" />
     <meta name="author" content="hoax" />
-    <meta property="og:image" content=”https://upload.wikimedia.org/wikipedia/commons/1/13/Seal_of_the_Province_of_Pangasinan.svg” />
-
+    
     <link rel="icon" href="{{ asset('logo/pangasinan.ico') }}">
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
