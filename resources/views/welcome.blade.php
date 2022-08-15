@@ -434,18 +434,54 @@
         </g>
     </svg>
     <section class="container mx-auto text-center py-6 mb-12">
-        <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-white">
-            Sign up
-        </h2>
-        <div class="w-full mb-4">
-            <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
-        </div>
-        <h3 class="my-4 text-3xl leading-tight">
-            or if you have an account just login.
-        </h3>
-        <a href="{{ route('register') }}" class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-            Sign up!
-        </a>
+        @if (Route::has('login'))
+            @auth
+                <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-white">
+                    {{ Auth::user()->name }}
+                </h2>
+                <div class="w-full mb-4">
+                    <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
+                </div>
+                <h3 class="my-4 text-3xl leading-tight">
+                    Go to your dashboard.
+                </h3>
+                @role('user')
+                    <a href="{{ url('/dashboard') }}" class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                        Dashboard
+                    </a>
+                @endrole
+                @role('brgy')
+                    <a href="{{ url('/brgy') }}" class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                        Dashboard
+                    </a>
+                @endrole
+                @role('municipal')
+                    <a href="{{ url('/municipal') }}" class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                        Dashboard
+                    </a>
+                @endrole
+                @role('admin')
+                    <a href="{{ url('/admin') }}" class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                        Dashboard
+                    </a>
+                @endrole
+            @else
+                <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-white">
+                    Sign up
+                </h2>
+                <div class="w-full mb-4">
+                    <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
+                </div>
+                <h3 class="my-4 text-3xl leading-tight">
+                    or if you have an account just login.
+                </h3>
+                <a href="{{ route('register') }}" class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                    Sign up!
+                </a>
+            @endauth
+        @else
+            
+        @endif
     </section>
     <!--Footer-->
     <footer class="bg-white">

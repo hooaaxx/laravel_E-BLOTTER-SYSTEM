@@ -45,7 +45,7 @@ Route::middleware(['auth','verified', 'role:user'])->name('dashboard.')->prefix(
 });
 
 //ADMIN DASHBOARD
-Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('/', [IndexController::class, 'index'])->name('index');
 
     //ROLES
@@ -75,7 +75,7 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
 
 
 //MUNICIPAL DASHBOARD
-Route::middleware(['auth', 'role:municipal'])->name('municipal.')->prefix('municipal')->group(function () {
+Route::middleware(['auth', 'verified', 'role:municipal'])->name('municipal.')->prefix('municipal')->group(function () {
     Route::get('/', [IndexController::class, 'MunicipalIndex'])->name('index');
 
     //BRGY BLOTTER
@@ -94,7 +94,7 @@ Route::middleware(['auth', 'role:municipal'])->name('municipal.')->prefix('munic
 });
 
 //BRGY DASHBOARD
-Route::middleware(['auth', 'role:brgy'])->name('brgy.')->prefix('brgy')->group(function () {
+Route::middleware(['auth', 'verified', 'role:brgy'])->name('brgy.')->prefix('brgy')->group(function () {
     Route::get('/', [IndexController::class, 'BrgyIndex'])->name('index');
 
     //PENDING BLOTTER
